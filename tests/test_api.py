@@ -28,3 +28,23 @@ def test_index_served():
     response = client.get("/")
     assert response.status_code == 200
     assert "AI Text Assistant" in response.text
+
+
+def test_digest_endpoint():
+    response = client.post(
+        "/api/digest",
+        json={"interests": ["focus", "writing", "learning"], "min_engagement": 100},
+    )
+    assert response.status_code == 200
+    data = response.json()
+    assert data["fetched"] == 10
+    assert len(data["selected"]) > 0
+    assert "# Methodology" in data["methodology_markdown"]
+    # Low-engagement meme should be filtered out.
+    assert all(p["id"] != "1006" for p in data["selected"])
+
+
+def test_digest_page_served():
+    response = client.get("/digest")
+    assert response.status_code == 200
+    assert "X Digest" in response.text

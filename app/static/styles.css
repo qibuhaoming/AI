@@ -187,3 +187,154 @@ body {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* --- Digest page --- */
+.app--wide {
+  max-width: 1080px;
+}
+
+.field__input {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--panel-soft);
+  background: var(--panel-soft);
+  color: var(--text);
+  padding: 0.7rem 0.9rem;
+  font-size: 1rem;
+}
+
+.field__input:focus {
+  outline: 2px solid var(--accent);
+}
+
+.field__input--small {
+  width: 6rem;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.controls .field__label {
+  margin: 0;
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-top: 1.25rem;
+  align-items: start;
+}
+
+.panel__title {
+  margin: 0 0 1rem;
+  font-size: 1.15rem;
+}
+
+.post-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.post {
+  background: var(--panel-soft);
+  border-radius: 10px;
+  padding: 0.9rem 1rem;
+}
+
+.post__head {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.35rem;
+}
+
+.post__author {
+  font-weight: 700;
+  color: #a5b4fc;
+}
+
+.post__score {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.post__title {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.post__text {
+  line-height: 1.5;
+}
+
+.post__kw {
+  margin-top: 0.5rem;
+  color: #a5b4fc;
+  font-size: 0.82rem;
+}
+
+.post__meta {
+  margin-top: 0.35rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.tag {
+  font-size: 0.7rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.tag--article {
+  background: #7c3aed;
+  color: white;
+}
+
+.methodology {
+  max-height: 620px;
+  overflow-y: auto;
+  line-height: 1.55;
+}
+
+.methodology h1 {
+  font-size: 1.4rem;
+}
+.methodology h2 {
+  font-size: 1.15rem;
+  margin-top: 1.25rem;
+  color: #c4b5fd;
+}
+.methodology h3 {
+  font-size: 1rem;
+  margin-top: 1rem;
+}
+.methodology blockquote {
+  margin: 0.35rem 0;
+  padding: 0.4rem 0.8rem;
+  border-left: 3px solid var(--accent);
+  background: var(--panel-soft);
+  border-radius: 0 8px 8px 0;
+  color: #cbd5e1;
+}
+.methodology li {
+  margin-left: 1.2rem;
+}
+
+@media (max-width: 820px) {
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+}

@@ -11,6 +11,9 @@ from pydantic import BaseModel, Field
 
 from app import __version__
 from app.analyzer import analyze_text
+from xdigest.filtering import InterestProfile, select_interesting
+from xdigest.methodology import build_methodology
+from xdigest.sources.fixture import FixtureSource
 
 STATIC_DIR = Path(__file__).parent / "static"
 
@@ -24,6 +27,12 @@ app = FastAPI(
 class AnalyzeRequest(BaseModel):
     text: str = Field(..., min_length=1, description="Text to analyze")
     keyword_limit: int = Field(5, ge=1, le=20)
+
+
+class DigestRequest(BaseModel):
+    interests: list[str] = Field(default_factory=list)
+    min_engagement: int = Field(0, ge=0)
+    select_limit: int = Field(20, ge=1, le=100)
 
 
 @app.get("/api/health")
@@ -40,9 +49,50 @@ def analyze(req: AnalyzeRequest) -> dict:
     return result.to_dict()
 
 
+@app.post("/api/digest")
+def digest(req: DigestRequest) -> dict:
+    """Run the xdigest pipeline against the bundled sample X timeline.
+
+    This uses the offline fixture source so the demo needs no X credentials.
+    """
+    source = FixtureSource()
+    posts = source.fetch_following_posts()
+    profile = InterestProfile(
+        keywords=req.interests,
+        min_engagement=req.min_engagement,
+    )
+    selected = select_interesting(posts, profile, limit=req.select_limit)
+    methodology_md = build_methodology([sp for sp in selected])
+
+    return {
+        "fetched": len(posts),
+        "selected": [
+            {
+                "id": sp.post.id,
+                "author": sp.post.author.handle,
+                "name": sp.post.author.name,
+                "text": sp.post.text,
+                "title": sp.post.title,
+                "is_article": sp.post.is_article,
+                "engagement": sp.post.engagement,
+                "score": round(sp.score, 1),
+                "matched_keywords": sp.matched_keywords,
+                "url": sp.post.url,
+            }
+            for sp in selected
+        ],
+        "methodology_markdown": methodology_md,
+    }
+
+
 @app.get("/")
 def index() -> FileResponse:
     return FileResponse(STATIC_DIR / "index.html")
+
+
+@app.get("/digest")
+def digest_page() -> FileResponse:
+    return FileResponse(STATIC_DIR / "digest.html")
 
 
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
