@@ -97,4 +97,19 @@ function render(data) {
   methodologyEl.innerHTML = renderMarkdown(data.methodology_markdown);
 }
 
+function applyQueryParams() {
+  const params = new URLSearchParams(window.location.search);
+  const interests = params.get("interests");
+  if (interests) interestsInput.value = interests;
+  const lang = params.get("lang");
+  if (lang && langSelect) {
+    const allowed = ["auto", "en", "zh"];
+    if (allowed.includes(lang)) langSelect.value = lang;
+  }
+  const minEngagement = params.get("min_engagement");
+  if (minEngagement !== null) minEngagementInput.value = minEngagement;
+}
+
+applyQueryParams();
+
 runBtn.addEventListener("click", buildDigest);
