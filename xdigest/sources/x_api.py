@@ -26,6 +26,27 @@ class MissingCredentialsError(RuntimeError):
     """Raised when no X access token is available."""
 
 
+class XApiError(RuntimeError):
+    """Raised when the X API returns an error response."""
+
+    def __init__(self, status_code: int, path: str, body: str) -> None:
+        self.status_code = status_code
+        self.path = path
+        self.body = body
+        hint = ""
+        if status_code in (401, 403):
+            hint = (
+                " — this usually means the token is invalid, lacks the required "
+                "scopes (tweet.read, users.read, follows.read), is app-only "
+                "instead of user-context, or your X API tier does not include "
+                "home-timeline reads (Basic tier or higher is required)."
+            )
+        super().__init__(
+            f"X API request to {path} failed with HTTP {status_code}{hint} "
+            f"Response: {body[:400]}"
+        )
+
+
 class XApiSource:
     def __init__(
         self,
@@ -51,7 +72,8 @@ class XApiSource:
         response = client.get(
             f"{self.base_url}{path}", params=params, headers=self._headers()
         )
-        response.raise_for_status()
+        if response.is_error:
+            raise XApiError(response.status_code, path, response.text)
         return response.json()
 
     def fetch_following_posts(self, limit: int = 100) -> list[Post]:

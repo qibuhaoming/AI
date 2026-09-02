@@ -64,17 +64,16 @@ def main(argv: list[str] | None = None) -> int:
         )
         try:
             source = _build_source(args.source, args.fixture_path)
+            result = run_pipeline(
+                source,
+                profile,
+                args.out,
+                fetch_limit=args.fetch_limit,
+                select_limit=args.select_limit,
+            )
         except Exception as exc:  # noqa: BLE001 - surface a friendly message
             print(f"error: {exc}", file=sys.stderr)
             return 2
-
-        result = run_pipeline(
-            source,
-            profile,
-            args.out,
-            fetch_limit=args.fetch_limit,
-            select_limit=args.select_limit,
-        )
 
         print(f"Fetched {result.fetched} posts from source '{args.source}'.")
         print(f"Selected {len(result.selected)} interesting posts.")
