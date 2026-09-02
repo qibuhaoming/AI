@@ -1,0 +1,144 @@
+[
+  {
+    "id": "1001",
+    "author": {"username": "sama", "name": "Sam"},
+    "text": "The best founders I know write things down. A clear weekly memo forces you to think, aligns the team, and compounds over months. Writing is thinking.",
+    "created_at": "2026-08-30T09:00:00Z",
+    "like_count": 4200,
+    "retweet_count": 890,
+    "reply_count": 130,
+    "is_article": false
+  },
+  {
+    "id": "1002",
+    "author": {"username": "paulg", "name": "Paul"},
+    "text": "Startups die from lack of focus more than from competition. Do one thing users love, then expand. Focus is a strategy, not a constraint.",
+    "created_at": "2026-08-30T11:20:00Z",
+    "like_count": 5300,
+    "retweet_count": 1200,
+    "reply_count": 210,
+    "is_article": false
+  },
+  {
+    "id": "1003",
+    "author": {"username": "karpathy", "name": "Andrej"},
+    "text": "A good habit for learning: build a tiny end-to-end version first, then improve each part. Momentum beats perfection. Ship the smallest thing that works.",
+    "created_at": "2026-08-29T15:10:00Z",
+    "like_count": 6100,
+    "retweet_count": 1500,
+    "reply_count": 180,
+    "is_article": false
+  },
+  {
+    "id": "1004",
+    "author": {"username": "karpathy", "name": "Andrej"},
+    "text": "New long-form: How I structure my week for deep work on AI research. Time-block mornings, batch meetings, protect focus.",
+    "created_at": "2026-08-28T08:00:00Z",
+    "like_count": 3800,
+    "retweet_count": 720,
+    "reply_count": 95,
+    "is_article": true,
+    "title": "Structuring a week for deep work"
+  },
+  {
+    "id": "1005",
+    "author": {"username": "naval", "name": "Naval"},
+    "text": "Productivity is not doing more, it is doing what matters and ignoring the rest. Say no to protect your yes.",
+    "created_at": "2026-08-27T18:45:00Z",
+    "like_count": 7200,
+    "retweet_count": 2100,
+    "reply_count": 240,
+    "is_article": false
+  },
+  {
+    "id": "1006",
+    "author": {"username": "random_meme", "name": "Memes"},
+    "text": "lol monday again coffee please",
+    "created_at": "2026-08-31T07:00:00Z",
+    "like_count": 12,
+    "retweet_count": 0,
+    "reply_count": 1,
+    "is_article": false
+  },
+  {
+    "id": "1007",
+    "author": {"username": "swyx", "name": "Shawn"},
+    "text": "Learning in public compounds: write notes as you learn, share them, and let feedback correct you. The best way to learn a topic is to teach it.",
+    "created_at": "2026-08-26T13:30:00Z",
+    "like_count": 2900,
+    "retweet_count": 540,
+    "reply_count": 70,
+    "is_article": false
+  },
+  {
+    "id": "1008",
+    "author": {"username": "sama", "name": "Sam"},
+    "text": "Hiring: prefer people who are relentlessly resourceful. They figure things out, unblock themselves, and raise the team's standards.",
+    "created_at": "2026-08-25T10:05:00Z",
+    "like_count": 3300,
+    "retweet_count": 600,
+    "reply_count": 88,
+    "is_article": false
+  },
+  {
+    "id": "1009",
+    "author": {"username": "foodie", "name": "Foodie"},
+    "text": "Best ramen spots in town, a thread. Nothing about work here, just noodles.",
+    "created_at": "2026-08-31T12:00:00Z",
+    "like_count": 340,
+    "retweet_count": 20,
+    "reply_count": 15,
+    "is_article": false
+  },
+  {
+    "id": "1010",
+    "author": {"username": "naval", "name": "Naval"},
+    "text": "Leverage comes from code and media: build products and content that work while you sleep. Specific knowledge plus accountability plus leverage.",
+    "created_at": "2026-08-24T20:15:00Z",
+    "like_count": 8100,
+    "retweet_count": 2400,
+    "reply_count": 300,
+    "is_article": false
+  },
+  {
+    "id": "1011",
+    "author": {"username": "ruanyf", "name": "阮一峰"},
+    "text": "坚持写作是最好的学习方法。每周写一篇技术周记，把学到的东西整理成文字，思考会更清晰，长期复利非常可观。",
+    "created_at": "2026-08-30T14:00:00Z",
+    "like_count": 5200,
+    "retweet_count": 1300,
+    "reply_count": 160,
+    "is_article": false
+  },
+  {
+    "id": "1012",
+    "author": {"username": "ruanyf", "name": "阮一峰"},
+    "text": "深度工作需要专注：把上午的时间整块留给最重要的任务，关闭通知，减少上下文切换，效率会明显提升。",
+    "created_at": "2026-08-29T09:30:00Z",
+    "like_count": 4100,
+    "retweet_count": 900,
+    "reply_count": 110,
+    "is_article": true,
+    "title": "深度工作与专注的方法"
+  },
+  {
+    "id": "1013",
+    "author": {"username": "productAI", "name": "AI产品笔记"},
+    "text": "做产品要专注一个真实需求，先做最小可用版本，再根据反馈迭代。学习和写作能帮助团队对齐目标。",
+    "created_at": "2026-08-28T16:20:00Z",
+    "like_count": 3600,
+    "retweet_count": 780,
+    "reply_count": 90,
+    "is_article": false
+  },
+  {
+    "id": "1014",
+    "author": {"username": "daily_life", "name": "日常"},
+    "text": "今天天气不错，中午吃了火锅，和工作学习没什么关系。",
+    "created_at": "2026-08-31T12:30:00Z",
+    "like_count": 45,
+    "retweet_count": 2,
+    "reply_count": 3,
+    "is_article": false
+  }
+]

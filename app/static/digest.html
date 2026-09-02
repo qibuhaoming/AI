@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>X Digest → Methodology</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <main class="app app--wide">
+      <header class="app__header">
+        <h1>X Digest → Methodology</h1>
+        <p class="app__subtitle">
+          Pulls posts from your X following (sample timeline in this demo),
+          keeps the ones matching your interests, organizes them into Markdown,
+          and synthesizes a methodology.
+        </p>
+      </header>
+
+      <section class="card">
+        <label class="field__label" for="interests-input">Your interests</label>
+        <input
+          id="interests-input"
+          class="field__input"
+          type="text"
+          value="focus, writing, productivity, learning, leverage, habit, hiring"
+        />
+        <label class="field__label field__label--spaced" for="url-input">
+          X post URL (optional — leave blank to use the sample timeline)
+        </label>
+        <input
+          id="url-input"
+          class="field__input"
+          type="text"
+          placeholder="https://x.com/user/status/1234567890"
+        />
+        <div class="controls">
+          <label class="field__label" for="min-engagement">Min engagement</label>
+          <input
+            id="min-engagement"
+            class="field__input field__input--small"
+            type="number"
+            value="100"
+            min="0"
+          />
+          <label class="field__label" for="lang-select">Language</label>
+          <select id="lang-select" class="field__input field__input--small">
+            <option value="auto">Auto</option>
+            <option value="en">English</option>
+            <option value="zh">中文</option>
+          </select>
+          <button id="run-btn" class="btn btn--primary" type="button">
+            Build digest
+          </button>
+          <span id="status" class="status" role="status"></span>
+        </div>
+      </section>
+
+      <div class="two-col">
+        <section id="posts-panel" class="card" hidden>
+          <h2 class="panel__title">Selected posts (<span id="post-count">0</span>)</h2>
+          <ul id="post-list" class="post-list"></ul>
+        </section>
+
+        <section id="methodology-panel" class="card" hidden>
+          <h2 class="panel__title">methodology.md</h2>
+          <div id="methodology" class="methodology"></div>
+        </section>
+      </div>
+    </main>
+
+    <script src="/static/digest.js"></script>
+  </body>
+</html>
