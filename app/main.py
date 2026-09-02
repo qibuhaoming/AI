@@ -33,6 +33,7 @@ class DigestRequest(BaseModel):
     interests: list[str] = Field(default_factory=list)
     min_engagement: int = Field(0, ge=0)
     select_limit: int = Field(20, ge=1, le=100)
+    lang: str = Field("auto", pattern="^(auto|en|zh)$")
 
 
 @app.get("/api/health")
@@ -62,7 +63,7 @@ def digest(req: DigestRequest) -> dict:
         min_engagement=req.min_engagement,
     )
     selected = select_interesting(posts, profile, limit=req.select_limit)
-    methodology_md = build_methodology([sp for sp in selected])
+    methodology_md = build_methodology(selected, lang=req.lang)
 
     return {
         "fetched": len(posts),

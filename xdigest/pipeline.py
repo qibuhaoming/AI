@@ -27,17 +27,22 @@ def run_pipeline(
     *,
     fetch_limit: int = 100,
     select_limit: int = 20,
+    lang: str = "auto",
 ) -> PipelineResult:
-    """Fetch → filter → export Markdown → synthesize methodology."""
+    """Fetch → filter → export Markdown → synthesize methodology.
+
+    ``lang`` controls the output language: ``"auto"`` (default), ``"en"`` or
+    ``"zh"``.
+    """
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
 
     posts = source.fetch_following_posts(limit=fetch_limit)
     selected = select_interesting(posts, profile, limit=select_limit)
 
-    digest = write_digest(selected, out)
+    digest = write_digest(selected, out, lang=lang)
 
-    methodology_md = build_methodology(selected)
+    methodology_md = build_methodology(selected, lang=lang)
     methodology_path = out / "methodology.md"
     methodology_path.write_text(methodology_md, encoding="utf-8")
 

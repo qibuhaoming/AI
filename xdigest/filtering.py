@@ -37,12 +37,17 @@ class ScoredPost:
     matched_keywords: list[str]
 
 
+def _has_cjk(value: str) -> bool:
+    return any("\u4e00" <= ch <= "\u9fff" for ch in value)
+
+
 def _keyword_matches(text: str, keywords: list[str]) -> list[str]:
     lowered = text.lower()
     matched = []
     for keyword in keywords:
-        # Word-boundary match for single words, substring for phrases.
-        if " " in keyword:
+        # Chinese has no word boundaries, and phrases are matched as substrings;
+        # single latin words use a word-boundary match to avoid false positives.
+        if _has_cjk(keyword) or " " in keyword:
             if keyword in lowered:
                 matched.append(keyword)
         elif re.search(rf"\b{re.escape(keyword)}\b", lowered):

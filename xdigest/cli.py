@@ -50,6 +50,12 @@ def build_parser() -> argparse.ArgumentParser:
     run.add_argument("--min-engagement", type=int, default=0)
     run.add_argument("--fetch-limit", type=int, default=100)
     run.add_argument("--select-limit", type=int, default=20)
+    run.add_argument(
+        "--lang",
+        choices=["auto", "en", "zh"],
+        default="auto",
+        help="Output language for the digest and methodology",
+    )
     return parser
 
 
@@ -70,6 +76,7 @@ def main(argv: list[str] | None = None) -> int:
                 args.out,
                 fetch_limit=args.fetch_limit,
                 select_limit=args.select_limit,
+                lang=args.lang,
             )
         except Exception as exc:  # noqa: BLE001 - surface a friendly message
             print(f"error: {exc}", file=sys.stderr)

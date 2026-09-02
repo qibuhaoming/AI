@@ -37,7 +37,7 @@ def test_digest_endpoint():
     )
     assert response.status_code == 200
     data = response.json()
-    assert data["fetched"] == 10
+    assert data["fetched"] == 14
     assert len(data["selected"]) > 0
     assert "# Methodology" in data["methodology_markdown"]
     # Low-engagement meme should be filtered out.

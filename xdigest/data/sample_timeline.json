@@ -99,5 +99,46 @@
     "retweet_count": 2400,
     "reply_count": 300,
     "is_article": false
+  },
+  {
+    "id": "1011",
+    "author": {"username": "ruanyf", "name": "阮一峰"},
+    "text": "坚持写作是最好的学习方法。每周写一篇技术周记，把学到的东西整理成文字，思考会更清晰，长期复利非常可观。",
+    "created_at": "2026-08-30T14:00:00Z",
+    "like_count": 5200,
+    "retweet_count": 1300,
+    "reply_count": 160,
+    "is_article": false
+  },
+  {
+    "id": "1012",
+    "author": {"username": "ruanyf", "name": "阮一峰"},
+    "text": "深度工作需要专注：把上午的时间整块留给最重要的任务，关闭通知，减少上下文切换，效率会明显提升。",
+    "created_at": "2026-08-29T09:30:00Z",
+    "like_count": 4100,
+    "retweet_count": 900,
+    "reply_count": 110,
+    "is_article": true,
+    "title": "深度工作与专注的方法"
+  },
+  {
+    "id": "1013",
+    "author": {"username": "productAI", "name": "AI产品笔记"},
+    "text": "做产品要专注一个真实需求，先做最小可用版本，再根据反馈迭代。学习和写作能帮助团队对齐目标。",
+    "created_at": "2026-08-28T16:20:00Z",
+    "like_count": 3600,
+    "retweet_count": 780,
+    "reply_count": 90,
+    "is_article": false
+  },
+  {
+    "id": "1014",
+    "author": {"username": "daily_life", "name": "日常"},
+    "text": "今天天气不错，中午吃了火锅，和工作学习没什么关系。",
+    "created_at": "2026-08-31T12:30:00Z",
+    "like_count": 45,
+    "retweet_count": 2,
+    "reply_count": 3,
+    "is_article": false
   }
 ]

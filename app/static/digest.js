@@ -1,6 +1,7 @@
 const runBtn = document.getElementById("run-btn");
 const interestsInput = document.getElementById("interests-input");
 const minEngagementInput = document.getElementById("min-engagement");
+const langSelect = document.getElementById("lang-select");
 const statusEl = document.getElementById("status");
 
 const postsPanel = document.getElementById("posts-panel");
@@ -40,6 +41,7 @@ async function buildDigest() {
     .map((s) => s.trim())
     .filter(Boolean);
   const minEngagement = Number(minEngagementInput.value) || 0;
+  const lang = langSelect ? langSelect.value : "auto";
 
   runBtn.disabled = true;
   statusEl.textContent = "Building digest…";
@@ -48,7 +50,7 @@ async function buildDigest() {
     const response = await fetch("/api/digest", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ interests, min_engagement: minEngagement }),
+      body: JSON.stringify({ interests, min_engagement: minEngagement, lang }),
     });
     if (!response.ok) throw new Error(`Request failed (${response.status})`);
     const data = await response.json();

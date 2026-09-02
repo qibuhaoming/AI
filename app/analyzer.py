@@ -1,37 +1,40 @@
 """Lightweight, dependency-free text analysis.
 
 This module implements a small rule-based "AI" analyzer so the demo runs
-completely offline, with no external model or API key required.
+completely offline, with no external model or API key required. It supports
+both English and Chinese text (Chinese is segmented via ``jieba`` when
+available, see :mod:`xdigest.textutil`).
 """
 
 from __future__ import annotations
 
 import re
-from collections import Counter
 from dataclasses import dataclass, field
 
+from xdigest.textutil import meaningful_tokens, tokenize
+
 POSITIVE_WORDS = {
+    # English
     "good", "great", "excellent", "amazing", "awesome", "love", "loved",
     "wonderful", "fantastic", "happy", "nice", "best", "brilliant", "cool",
     "delightful", "perfect", "superb", "enjoy", "enjoyed", "like", "liked",
+    # Chinese
+    "喜欢", "爱", "棒", "优秀", "完美", "赞", "厉害", "精彩", "出色",
+    "满意", "开心", "快乐", "推荐", "高效", "强大", "喜爱", "好评",
 }
 
 NEGATIVE_WORDS = {
+    # English
     "bad", "terrible", "awful", "horrible", "hate", "hated", "worst",
     "poor", "sad", "angry", "boring", "broken", "buggy", "slow", "ugly",
     "disappointing", "disappointed", "annoying", "useless", "wrong",
+    # Chinese
+    "糟糕", "讨厌", "失望", "无聊", "崩溃", "错误", "垃圾", "难受",
+    "烂", "问题", "差劲", "痛苦", "麻烦", "差评",
 }
 
-STOP_WORDS = {
-    "the", "a", "an", "and", "or", "but", "if", "then", "so", "of", "to",
-    "in", "on", "for", "with", "at", "by", "from", "as", "is", "are", "was",
-    "were", "be", "been", "being", "it", "this", "that", "these", "those",
-    "i", "you", "he", "she", "we", "they", "me", "him", "her", "us", "them",
-    "my", "your", "our", "their", "its", "do", "does", "did", "have", "has",
-    "had", "not", "no", "yes", "can", "will", "would", "should", "could",
-}
-
-_WORD_RE = re.compile(r"[a-zA-Z']+")
+# Chinese sentence terminators in addition to the latin ones.
+_SENTENCE_RE = re.compile(r"[.!?。！？;；]+")
 
 
 @dataclass
@@ -60,10 +63,6 @@ class Analysis:
         }
 
 
-def _tokenize(text: str) -> list[str]:
-    return [match.group(0).lower() for match in _WORD_RE.finditer(text)]
-
-
 def _score_sentiment(tokens: list[str]) -> tuple[str, int]:
     score = 0
     for token in tokens:
@@ -80,9 +79,10 @@ def _score_sentiment(tokens: list[str]) -> tuple[str, int]:
     return label, score
 
 
-def _top_keywords(tokens: list[str], limit: int = 5) -> list[str]:
-    meaningful = [t for t in tokens if t not in STOP_WORDS and len(t) > 2]
-    counts = Counter(meaningful)
+def _top_keywords(text: str, limit: int = 5) -> list[str]:
+    from collections import Counter
+
+    counts = Counter(meaningful_tokens(text))
     return [word for word, _ in counts.most_common(limit)]
 
 
@@ -94,9 +94,9 @@ def analyze_text(text: str, keyword_limit: int = 5) -> Analysis:
     if text is None or not text.strip():
         raise ValueError("text must not be empty")
 
-    tokens = _tokenize(text)
+    tokens = tokenize(text)
     sentiment, score = _score_sentiment(tokens)
-    sentences = [s for s in re.split(r"[.!?]+", text) if s.strip()]
+    sentences = [s for s in _SENTENCE_RE.split(text) if s.strip()]
     # Average adult reading speed ~200 words per minute.
     reading_time = round(len(tokens) / 200 * 60) if tokens else 0
 
@@ -107,6 +107,6 @@ def analyze_text(text: str, keyword_limit: int = 5) -> Analysis:
         sentence_count=max(len(sentences), 1),
         sentiment=sentiment,
         sentiment_score=score,
-        keywords=_top_keywords(tokens, keyword_limit),
+        keywords=_top_keywords(text, keyword_limit),
         reading_time_seconds=reading_time,
     )

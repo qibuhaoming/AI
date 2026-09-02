@@ -101,9 +101,25 @@ This repository ships a [`.cursor/environment.json`](.cursor/environment.json)
 that installs dependencies into `.venv` and runs the web demo on port 8000, so
 Cloud Agents can build, test, and run the app out of the box.
 
+## Language support (English + 中文)
+
+The pipeline handles both English and Chinese text:
+
+- **Segmentation:** Chinese is segmented with [`jieba`](https://github.com/fxsjy/jieba)
+  (offline); English uses latin-word tokenization.
+- **Analysis:** interest matching, keyword/theme extraction, and sentiment all
+  work for Chinese and English.
+- **Localized output:** the digest index, per-post Markdown, and the methodology
+  are rendered in Chinese or English. Pass `--lang auto|en|zh` on the CLI (or the
+  Language selector on the `/digest` page). `auto` detects the language from the
+  selected posts.
+
+```bash
+.venv/bin/python -m xdigest run --source fixture --out output_zh \
+  --interests 写作,专注,学习,深度工作,产品 --min-engagement 100 --lang auto
+```
+
 ## Roadmap / notes
 
-- Interest matching and theme extraction are currently English-oriented; CJK
-  support is a planned enhancement.
 - An optional LLM-backed methodology synthesizer can be added behind an API key;
   the default synthesizer is heuristic and fully offline.
