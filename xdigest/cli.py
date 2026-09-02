@@ -23,7 +23,9 @@ from xdigest.sources.base import PostSource
 from xdigest.sources.fixture import FixtureSource
 
 
-def _build_source(name: str, fixture_path: str | None) -> PostSource:
+def _build_source(
+    name: str, fixture_path: str | None, urls: list[str] | None = None
+) -> PostSource:
     if name == "fixture":
         return FixtureSource(fixture_path)
     if name == "x":
@@ -31,6 +33,12 @@ def _build_source(name: str, fixture_path: str | None) -> PostSource:
         from xdigest.sources.x_api import XApiSource
 
         return XApiSource()
+    if name == "url":
+        if not urls:
+            raise ValueError("--url is required when --source url is used")
+        from xdigest.sources.x_syndication import XSyndicationSource
+
+        return XSyndicationSource(urls)
     raise ValueError(f"Unknown source: {name!r}")
 
 
@@ -39,8 +47,14 @@ def build_parser() -> argparse.ArgumentParser:
     sub = parser.add_subparsers(dest="command", required=True)
 
     run = sub.add_parser("run", help="Run the digest pipeline")
-    run.add_argument("--source", choices=["fixture", "x"], default="fixture")
+    run.add_argument("--source", choices=["fixture", "x", "url"], default="fixture")
     run.add_argument("--fixture-path", default=None, help="Path to a fixture JSON")
+    run.add_argument(
+        "--url",
+        action="append",
+        default=None,
+        help="X post URL/ID (repeatable). Used with --source url.",
+    )
     run.add_argument("--out", default="output", help="Output directory")
     run.add_argument(
         "--interests",
@@ -69,7 +83,7 @@ def main(argv: list[str] | None = None) -> int:
             min_engagement=args.min_engagement,
         )
         try:
-            source = _build_source(args.source, args.fixture_path)
+            source = _build_source(args.source, args.fixture_path, args.url)
             result = run_pipeline(
                 source,
                 profile,

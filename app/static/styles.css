@@ -211,6 +211,10 @@ body {
   width: 6rem;
 }
 
+.field__label--spaced {
+  margin-top: 1rem;
+}
+
 .controls {
   display: flex;
   align-items: center;

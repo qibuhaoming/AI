@@ -2,6 +2,7 @@ const runBtn = document.getElementById("run-btn");
 const interestsInput = document.getElementById("interests-input");
 const minEngagementInput = document.getElementById("min-engagement");
 const langSelect = document.getElementById("lang-select");
+const urlInput = document.getElementById("url-input");
 const statusEl = document.getElementById("status");
 
 const postsPanel = document.getElementById("posts-panel");
@@ -42,6 +43,7 @@ async function buildDigest() {
     .filter(Boolean);
   const minEngagement = Number(minEngagementInput.value) || 0;
   const lang = langSelect ? langSelect.value : "auto";
+  const url = urlInput && urlInput.value.trim() ? urlInput.value.trim() : null;
 
   runBtn.disabled = true;
   statusEl.textContent = "Building digest…";
@@ -50,7 +52,12 @@ async function buildDigest() {
     const response = await fetch("/api/digest", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ interests, min_engagement: minEngagement, lang }),
+      body: JSON.stringify({
+        interests,
+        min_engagement: minEngagement,
+        lang,
+        url,
+      }),
     });
     if (!response.ok) throw new Error(`Request failed (${response.status})`);
     const data = await response.json();
@@ -108,6 +115,8 @@ function applyQueryParams() {
   }
   const minEngagement = params.get("min_engagement");
   if (minEngagement !== null) minEngagementInput.value = minEngagement;
+  const url = params.get("url");
+  if (url && urlInput) urlInput.value = url;
 }
 
 applyQueryParams();

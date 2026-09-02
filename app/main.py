@@ -34,6 +34,9 @@ class DigestRequest(BaseModel):
     min_engagement: int = Field(0, ge=0)
     select_limit: int = Field(20, ge=1, le=100)
     lang: str = Field("auto", pattern="^(auto|en|zh)$")
+    url: str | None = Field(
+        None, description="Optional X post URL to digest instead of the sample."
+    )
 
 
 @app.get("/api/health")
@@ -52,12 +55,21 @@ def analyze(req: AnalyzeRequest) -> dict:
 
 @app.post("/api/digest")
 def digest(req: DigestRequest) -> dict:
-    """Run the xdigest pipeline against the bundled sample X timeline.
+    """Run the xdigest pipeline.
 
-    This uses the offline fixture source so the demo needs no X credentials.
+    By default this uses the offline sample timeline (no credentials needed). If
+    ``url`` is provided, that single public X post is fetched via the public
+    syndication endpoint and digested instead.
     """
-    source = FixtureSource()
-    posts = source.fetch_following_posts()
+    if req.url:
+        from xdigest.sources.x_syndication import SyndicationError, fetch_post
+
+        try:
+            posts = [fetch_post(req.url)]
+        except SyndicationError as exc:
+            raise HTTPException(status_code=502, detail=str(exc)) from exc
+    else:
+        posts = FixtureSource().fetch_following_posts()
     profile = InterestProfile(
         keywords=req.interests,
         min_engagement=req.min_engagement,
