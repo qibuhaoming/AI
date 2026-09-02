@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Text Assistant</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="app__header">
+        <h1>AI Text Assistant</h1>
+        <p class="app__subtitle">
+          Paste some text and let the assistant analyze it — sentiment,
+          keywords, and reading stats, all computed locally.
+        </p>
+      </header>
+
+      <section class="card">
+        <label class="field__label" for="text-input">Your text</label>
+        <textarea
+          id="text-input"
+          class="field__textarea"
+          rows="6"
+          placeholder="e.g. I really love this new project, it works great and is amazing!"
+        ></textarea>
+        <div class="actions">
+          <button id="analyze-btn" class="btn btn--primary" type="button">
+            Analyze
+          </button>
+          <span id="status" class="status" role="status"></span>
+        </div>
+      </section>
+
+      <section id="results" class="results" hidden>
+        <div class="stat-grid">
+          <div class="stat">
+            <span class="stat__value" id="stat-sentiment">–</span>
+            <span class="stat__label">Sentiment</span>
+          </div>
+          <div class="stat">
+            <span class="stat__value" id="stat-words">0</span>
+            <span class="stat__label">Words</span>
+          </div>
+          <div class="stat">
+            <span class="stat__value" id="stat-sentences">0</span>
+            <span class="stat__label">Sentences</span>
+          </div>
+          <div class="stat">
+            <span class="stat__value" id="stat-reading">0s</span>
+            <span class="stat__label">Reading time</span>
+          </div>
+        </div>
+        <div class="keywords">
+          <h2 class="keywords__title">Top keywords</h2>
+          <ul id="keyword-list" class="keywords__list"></ul>
+        </div>
+      </section>
+    </main>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>

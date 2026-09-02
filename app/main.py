@@ -1,0 +1,48 @@
+"""FastAPI application exposing the AI text-analysis assistant."""
+
+from __future__ import annotations
+
+from pathlib import Path
+
+from fastapi import FastAPI, HTTPException
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel, Field
+
+from app import __version__
+from app.analyzer import analyze_text
+
+STATIC_DIR = Path(__file__).parent / "static"
+
+app = FastAPI(
+    title="AI Text Assistant",
+    version=__version__,
+    description="A tiny, offline rule-based text-analysis service.",
+)
+
+
+class AnalyzeRequest(BaseModel):
+    text: str = Field(..., min_length=1, description="Text to analyze")
+    keyword_limit: int = Field(5, ge=1, le=20)
+
+
+@app.get("/api/health")
+def health() -> dict:
+    return {"status": "ok", "version": __version__}
+
+
+@app.post("/api/analyze")
+def analyze(req: AnalyzeRequest) -> dict:
+    try:
+        result = analyze_text(req.text, keyword_limit=req.keyword_limit)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    return result.to_dict()
+
+
+@app.get("/")
+def index() -> FileResponse:
+    return FileResponse(STATIC_DIR / "index.html")
+
+
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
